@@ -149,20 +149,34 @@ export default class Home extends Component {
               this.face = <li>No face found</li>
             }
             if (photo.googleVision.labelAnnotations) {
-              this.label = photo.googleVision.labelAnnotations;
-              this.labels = this.label.map(label => {
+              this.lbla = photo.googleVision.labelAnnotations;
+              this.labels = this.lbla.map(label => {
                 return (
-                  <li>{label.description} (confidence: {label.confidence}, score: {label.score})</li>
+                  <li>{label.description} (score: {label.score})</li>
                 );
               });
             } else {
               this.labels = <li>No labels</li>
             }
             if (photo.googleVision.landmarkAnnotations) {
-              this.landmark = photo.googleVision.landmarkAnnotations;
+              this.lma = photo.googleVision.landmarkAnnotations;
+              this.landmarks = this.lma.map(landmark => {
+                return (
+                  <li>{landmark.description} (score: {landmark.score})</li>
+                );
+              });
+            } else {
+              this.landmarks = <li>No labels</li>
             }
             if (photo.googleVision.logoAnnotations) {
-              this.logo = photo.googleVision.logoAnnotations;
+              this.loa = photo.googleVision.logoAnnotations;
+              this.logos = this.loa.map(logo => {
+                return (
+                  <li>{logo.description} (score: {logo.score})</li>
+                );
+              });
+            } else {
+              this.logos = <li>No labels</li>
             }
             if (photo.googleVision.safeSearchAnnotation) {
               this.safe = photo.googleVision.safeSearchAnnotation;
@@ -178,9 +192,16 @@ export default class Home extends Component {
               this.safeSearch = <li>No safe search found</li>
             }
             if (photo.googleVision.textAnnotations) {
-              this.text = photo.googleVision.textAnnotations;
+              this.text = photo.googleVision.textAnnotations.map(text => {
+                return (
+                  <li>{text.description} (score: {text.score})</li>
+                );
+              });
+            } else {
+              this.text = <li>No text found</li>
             }
             if (photo.googleVision.webDetection) {
+
               if (photo.googleVision.webDetection.bestGuessLabels) {
                 this.webLabels = photo.googleVision.webDetection.bestGuessLabels.map(label => {
                   return (
@@ -209,6 +230,16 @@ export default class Home extends Component {
               } else {
                 this.dopples = <div></div>
               }
+
+              if (photo.googleVision.webDetection.webEntities) {
+                this.entities = photo.googleVision.webDetection.webEntities.map(entity => {
+                  return (
+                    <li>{entity.description} (score: {entity.score})</li>
+                  );
+                });
+              } else {
+                this.entities = <li>No entities</li>
+              }
             }
 
           }
@@ -229,22 +260,22 @@ export default class Home extends Component {
                 </ul>
 
                 <h2>Landmark</h2>
-                {this.landmark}
+                <ul>{this.landmarks}</ul>
 
                 <h2>Logo</h2>
-                {this.logo}
+                <ul>{this.logos}</ul>
 
                 <h2>Safe search</h2>
                 <ul>{this.safeSearch}</ul>
                 
-
                 <h2>Text</h2>
-                {this.text}
+                <ul>{this.text}</ul>
 
                 <h2>Web labels</h2>
-                <ul>
-                  {this.webLabels}
-                </ul>
+                <ul>{this.webLabels}</ul>
+
+                <h2>Web entities</h2>
+                <ul>{this.entities}</ul>
 
                 <h2>Similar images</h2>
                 <div className="scrolling-wrapper">
