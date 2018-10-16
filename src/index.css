@@ -1,14 +1,210 @@
-body {
+html {
   margin: 0;
-  padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
-}
+  width: 100%;
+ }
+ 
+ body {
+   background: #000;
+   color: #c8c8c8;
+   margin: 0;
+   padding: 10px;
+   font-family: sans-serif;
+   max-width: 768px;
+   margin: 0 auto;
+   height: 100vh;
+   width: 100%;
+ }
+ h1 {
+   color: #ef7e4c;
+ }
+ h2 {
+   color: #939ca0;
+ }
+ .content {
+   padding-bottom: 50px;
+ }
+ .login-button {
+  height: 60px;
+  width: calc(100% - 20px);
+  position: fixed;
+  bottom: 10px;
+  left: 10px;
+  background: #939ca0;
+  margin: 0 auto;
+ }
+ .login-container { 
+  background: #000;
+  width: 100%;
+  height: 100vh;
+ }
+ .button-text {
+  position: relative;
+  font-size: 20px;
+  color: white;
+  line-height: 33px;
+  left: 60px;
+ }
+ .google-logo {
+  height: 30px;
+  float: left;
+  background-size: contain;
+  background-repeat: no-repeat; 
+  margin: 10px;
+ }
+ .splash-header {
+   color: #ef7e4c;
+   margin: 0;
+   padding: 20px;
+   text-align: center;
+ }
+ #root {
+   width: 100%;
+   height: 100vh;
+   max-width: 500px;
+   margin: 0 auto;
+   margin-bottom: 50px;
+ }
+ 
+ 
+ .login-h1{
+   font-size: 82px;
+   line-height: 6.1;
+   color: black;
+ }
+ 
+ .App {
+   text-align: center;
+ }
+ 
+ .scrolling-wrapper {
+   overflow-x: scroll;
+   overflow-y: hidden;
+   white-space: nowrap;
+ }
+ 
+ .scrolling-wrapper .main-photo.card-1.card {
+     display: inline-block !important;
+     color: white;
+     text-align: center;
+     padding: 14px;
+     text-decoration: none;
+ }
+ 
+ .card-1.card.loading-card {
+   padding-top: 30px !important;
+ }
+ 
+ 
+ .App-logo {
+   animation: App-logo-spin infinite 20s linear;
+   height: 80px;
+ }
+ 
+ .testimonial-group {
+   max-width: 500px;
+ }
+ 
+ .testimonial-group > .row {
+   overflow-x: auto;
+   white-space: nowrap;
+ }
+ .testimonial-group > .row > .col-xs-4 {
+   display: inline-block;
+   float: none;
+ }
+ 
+ .main-photo {
+   background-position: center center;
+   background-size: cover;
+   background-repeat: no-repeat;
+   height: 100px;
+   width: 100px;
+   margin: 20px;
+   border-radius: 50%;
+ }
+ 
+ .main-close {
+   position: relative;
+   top: 50px;
+   left: 10px;
+ }
+ 
+ .card-1 {
+   box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+   transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+   padding: 25px;
+   padding-top: 30px;
+ }
+ 
+ .card-1:hover {
+   box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+ }
+ 
+ .dopple-image {
+   height: 100px;
+   width: 100px;
+   border-radius: 50%;
+ }
+ 
+ .text-center {
+   height: 130px;
+   overflow-y: hidden;
+   margin-bottom: 20px;
+ }
+ 
+ .App-header {
+   background-color: #222;
+   height: 150px;
+   padding: 20px;
+   color: white;
+ }
+ 
+ .App-intro {
+   font-size: large;
+ }
+ 
+ @keyframes App-logo-spin {
+   from { transform: rotate(0deg); }
+   to { transform: rotate(360deg); }
+ }
+ 
+ .style{
+   height: 100px;
+ }
+ 
+ .google-login {
+   line-height:6.5;
+   width: 100%;
+   min-height: 100px;
+   position: fixed;
+   bottom: 0;
+   max-width: 500px;
+ }
+ 
+ .bottom-nav {
+   height: 50px;
+   width: 100%;
+   margin-left: 0;
+   margin-right: 0;
+   position: fixed;
+   bottom: 0;
+   color: white;
+   background-color: black;
+   max-width: 500px;
+ }
+ .col-bottom {
+   text-align: center;
+ }
+ 
+ .col-bottom a {
+   color: white;
+ }
+ 
+ .col-bottom :hover {
+   color: rgb(108,248,1880);
+ }
+ 
+ .bottom-icon {
+   font-size: 35px;
+   line-height: 44px;
+ }
