@@ -5,12 +5,21 @@ import { logout } from '../helpers/auth';
 import FileUploader from 'react-firebase-file-uploader';
 import firebase from 'firebase';
 import { ScaleLoader } from 'react-spinner';
+import SpotifyWebApi from 'spotify-web-api-js';
+const spotifyApi = new SpotifyWebApi();
 
 const appTokenKey = "appToken";
 export default class Home extends Component {
 
     constructor(props) {
         super(props);
+
+        const params = this.getHashParams();
+        console.log(params);
+        const token = params.access_token;
+        if (token) {
+          spotifyApi.setAccessToken(token);
+        }
 
         // check if we are on a mobile device
         this.isMobile = () => {
@@ -24,7 +33,9 @@ export default class Home extends Component {
           showModal: false,
           currentPhoto: '',
           isMobile: this.isMobile(),
-          imageRef: ''
+          imageRef: '',
+          loggedIn: token ? true : false,
+          nowPlaying: { name: 'Not Checked', albumArt: '' }
         }; 
 
         this.handleLogout = this.handleLogout.bind(this);
@@ -33,6 +44,30 @@ export default class Home extends Component {
         this.handleRemove = this.handleRemove.bind(this);
         this.handleUploadSuccess = this.handleUploadSuccess.bind(this);
     }
+
+    getHashParams() {
+      var hashParams = {};
+      var e, r = /([^&;=]+)=?([^&;]*)/g,
+          q = window.location.hash.substring(1);
+      e = r.exec(q)
+      while (e) {
+         hashParams[e[1]] = decodeURIComponent(e[2]);
+         e = r.exec(q);
+      }
+      return hashParams;
+    }
+
+getNowPlaying(){
+  spotifyApi.getMyCurrentPlaybackState()
+    .then((response) => {
+      this.setState({
+        nowPlaying: { 
+            name: response.item.name, 
+            albumArt: response.item.album.images[0].url
+          }
+      });
+    })
+}
 
     handleClose() {
       this.setState({
@@ -303,7 +338,18 @@ export default class Home extends Component {
 		return (<>
 			<div class="content">
         <h1>Retroversion</h1>
-				{allImages}
+        {allImages}
+        
+        <div className="App">
+          <a href='https://accounts.spotify.com/authorize?client_id=c7643b96b1c241e69501596c7bc0ba2a&response_type=token&redirect_uri=http://localhost:3001/app/home' > Login to Spotify </a>
+          <div>
+            Now Playing: { this.state.nowPlaying.name }
+          </div>
+          <div>
+            <img src={this.state.nowPlaying.albumArt} style={{ height: 150 }}/>
+          </div>
+        </div>
+
  		  </div>
       <Grid className="bottom-nav">
         <Row className="show-grid">

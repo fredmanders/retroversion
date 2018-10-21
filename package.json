@@ -5,8 +5,14 @@
   "dependencies": {
     "firebase": "^5.5.4",
     "react": "^16.5.2",
+    "react-bootstrap": "^0.32.4",
     "react-dom": "^16.5.2",
-    "react-scripts": "2.0.5"
+    "react-firebase-file-uploader": "^2.4.2",
+    "react-router": "^4.3.1",
+    "react-router-dom": "^4.3.1",
+    "react-scripts": "2.0.5",
+    "react-spinner": "^0.2.7",
+    "spotify-web-api-js": "^1.1.1"
   },
   "scripts": {
     "start": "react-scripts start",

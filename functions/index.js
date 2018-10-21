@@ -38,7 +38,7 @@ exports.annotateImage = functions.firestore.document('photos/{document}')
 			},
 			{
 				"type": "LABEL_DETECTION",
-				"maxResults": 3
+				"maxResults": 10
 			},
 			{
 				"type": "TEXT_DETECTION",
@@ -50,7 +50,7 @@ exports.annotateImage = functions.firestore.document('photos/{document}')
 			},
 			{
 				"type": "WEB_DETECTION",
-				"maxResults": 3
+				"maxResults": 10
 			},
 		],
 	};
