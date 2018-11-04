@@ -341,7 +341,7 @@ getNowPlaying(){
         {allImages}
         
         <div className="App">
-          <a href='https://accounts.spotify.com/authorize?client_id=c7643b96b1c241e69501596c7bc0ba2a&response_type=token&redirect_uri=http://localhost:3001/app/home' > Login to Spotify </a>
+          <a href='https://accounts.spotify.com/authorize?client_id=f3f6bb3b58ff4ad1a637e1ea565406c2&response_type=token&redirect_uri=http://localhost:3001/app/home' > Login to Spotify </a>
           <div>
             Now Playing: { this.state.nowPlaying.name }
           </div>
