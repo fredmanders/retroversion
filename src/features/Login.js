@@ -9,40 +9,38 @@ export default class Login extends Component {
 
     constructor(props) {
         super(props);
-        this.state = { splashScreen: false };
+        this.state = {
+        	initialAuthStateReceived: false,
+					loginInProgress: false
+				};
         this.handleGoogleLogin = this.handleGoogleLogin.bind(this);
     }
 
     handleGoogleLogin() {
+    	this.setState({loginInProgress: true});
     	loginWithGoogle()
     	.catch(err => {
-    		localStorage.removeItem(firebaseAuthKey)
+    		alert(`There was a problem logging in: ${err}`)
     	});
 
     	// this will set the splashscreen until its overridden by the real firebaseAuthKey
-    	localStorage.setItem(firebaseAuthKey, '1');
     }
 
-    componentWillMount() {
-
-    	// checks if we are logged in, if we are go to the home route
-        if (localStorage.getItem(appTokenKey)) {
-            this.props.history.push('/app/home');
-            return;
-        }    	
-
-        firebaseAuth().onAuthStateChanged(user => {
+    componentDidMount() {
+    	
+        this.cancel = firebaseAuth().onAuthStateChanged(user => {
+        	console.log("Auth state received", user);
         	if (user) {
-        		localStorage.removeItem(firebaseAuthKey);
-        		localStorage.setItem(appTokenKey, user.uid);
         		this.props.history.push('/app/home')
-        	}
+        	} else {
+        		this.setState({initialAuthStateReceived: true, loginInProgress: false});
+					}
         })
     }
 
 	render() {
 
-		if (localStorage.getItem(firebaseAuthKey) === '1') 
+		if (!this.state.initialAuthStateReceived || this.state.loginInProgress)
 			return <Splashscreen />;
 		return <LoginPage handleGoogleLogin={this.handleGoogleLogin} />;
 
@@ -59,7 +57,7 @@ const styles = {
 const LoginPage = ({ handleGoogleLogin }) => (
 
 	<div className="login-container">
-		<h1 class="splash-header">Retroversion</h1>
+		<h1 className="splash-header">Retroversion</h1>
 		<button onClick={handleGoogleLogin} className="login-button">
 			<div style={styles} className="google-logo">
 				<span className="button-text">Sign In With Google</span>
