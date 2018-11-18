@@ -7,6 +7,7 @@ import firebase from 'firebase';
 import { ScaleLoader } from 'react-spinner';
 import SpotifyWebApi from 'spotify-web-api-js';
 import PhotoEntities from "./PhotoEntities";
+import Camera from "./Camera";
 const spotifyApi = new SpotifyWebApi();
 
 const appTokenKey = "appToken";
@@ -36,7 +37,9 @@ export default class Home extends Component {
           isMobile: this.isMobile(),
           imageRef: '',
           loggedIn: token ? true : false,
-          nowPlaying: { name: 'Not Checked', albumArt: '' }
+          nowPlaying: { name: 'Not Checked', albumArt: '' },
+          
+          showCamera: false
         }; 
 
         this.handleLogout = this.handleLogout.bind(this);
@@ -137,7 +140,7 @@ getNowPlaying(){
             console.log('bucket', bucket)
             console.log('fullPath', fullPath)
             let downloadURL = await firebase.storage().ref(this.state.imageRef).child(filename).getDownloadURL();
-            console.log('downloadURL', downloadURL)
+            console.log('downloadURL', downloadURL);
 
             let { uid, email, displayName } = await firebase.auth().currentUser;
 
@@ -148,7 +151,8 @@ getNowPlaying(){
                 email,
                 bucket,
                 fullPath
-            }
+            };
+            
             console.log('newPhoto', newPhoto);
 
             let photoAdded = await firebase.firestore().collection('photos').add(newPhoto);
@@ -160,7 +164,18 @@ getNowPlaying(){
         }
 
     }
-
+    
+  async handleImageUpload(blob) {
+      this.setState({showCamera: false});
+      
+      let filename = `${new Date()}.png`;
+      console.log("uploading ", filename, blob);
+      let ref = firebase.storage().ref(this.state.imageRef).child(filename);
+      
+      await ref.put(blob);
+      this.handleUploadSuccess(filename)
+  }
+  
 	render() {
       
 
@@ -334,6 +349,14 @@ getNowPlaying(){
 		return (<>
 			<div class="content">
         <h1>Retroversion</h1>
+        <Modal show={this.state.showCamera} onHide={() => this.setState({showCamera: false})}>
+          <Modal.Header closeButton>
+            <Modal.Title>Take a photo</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Camera onImageBlob={this.handleImageUpload.bind(this)} />
+          </Modal.Body>
+        </Modal>
         {allImages}
         
         <div className="App">
@@ -349,13 +372,13 @@ getNowPlaying(){
  		  </div>
       <Grid className="bottom-nav">
         <Row className="show-grid">
-          <Col xs={4} className="col-bottom">
+          <Col xs={3} className="col-bottom">
               <Link to="/app/album"><i className="bottom-icon material-icons">collections</i></Link>
           </Col>
-          <Col xs={4} className="col-bottom">
+          <Col xs={3} className="col-bottom">
 
                       <label>
-                          <i className="bottom-icon material-icons">camera_alt</i>
+                          <i className="bottom-icon material-icons">image_file</i>
                           <FileUploader
                             hidden
                             accept="image/*"
@@ -369,7 +392,10 @@ getNowPlaying(){
 
 
           </Col>
-          <Col onClick={this.handleLogout} xs={4} className="col-bottom">
+          <Col  xs={3} className="col-bottom" onClick={() => this.setState({showCamera: !this.state.showCamera})}>
+            <i className="bottom-icon material-icons">camera_alt</i>
+          </Col>
+          <Col onClick={this.handleLogout} xs={3} className="col-bottom">
             <i className="bottom-icon material-icons">assignment_return</i>
           </Col>
         </Row>
