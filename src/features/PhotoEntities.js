@@ -12,7 +12,7 @@ class PhotoEntities extends React.Component {
     let album = this.state.musicAlbum && this.state.musicAlbum.name;
     let group = this.state.musicGroup && this.state.musicGroup.name;
     
-    let token = "BQD7eGIRAiF_Wlj3CgE_BaBeOO1IAQW7lO68RH-Y7-xIZe39FWVB2ApQj2dWoiaHAKJNQ7sfyl0m9LzNO_o\n";
+    let token = "BQBwaaoq5SlzSRg4o-04wMpVA3iRk-jAxc3KfD9G7jvYjfLGFV1KtzGaUPI73Svgdmi2u4RLHBdBshgBRts\n";
     let resp = await fetch(`https://api.spotify.com/v1/search?q=album:${album} artist:${group}&type=album`, {
       method: "GET",
       headers: {
