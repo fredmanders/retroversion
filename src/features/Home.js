@@ -187,7 +187,7 @@ getNowPlaying(){
               this.lbla = photo.googleVision.labelAnnotations;
               this.labels = this.lbla.map(label => {
                 return (
-                  <li>{label.description} (score: {label.score})</li>
+                  <li key={label.mid}>{label.description} (score: {label.score})</li>
                 );
               });
             } else {
@@ -197,7 +197,7 @@ getNowPlaying(){
               this.lma = photo.googleVision.landmarkAnnotations;
               this.landmarks = this.lma.map(landmark => {
                 return (
-                  <li>{landmark.description} (score: {landmark.score})</li>
+                  <li key={landmark.mid}>{landmark.description} (score: {landmark.score})</li>
                 );
               });
             } else {
@@ -207,7 +207,7 @@ getNowPlaying(){
               this.loa = photo.googleVision.logoAnnotations;
               this.logos = this.loa.map(logo => {
                 return (
-                  <li>{logo.description} (score: {logo.score})</li>
+                  <li key={logo.mid}>{logo.description} (score: {logo.score})</li>
                 );
               });
             } else {
@@ -229,7 +229,7 @@ getNowPlaying(){
             if (photo.googleVision.textAnnotations) {
               this.text = photo.googleVision.textAnnotations.map(text => {
                 return (
-                  <li>{text.description} (score: {text.score})</li>
+                  <li key={text.description}>{text.description} (score: {text.score})</li>
                 );
               });
             } else {
@@ -240,7 +240,7 @@ getNowPlaying(){
               if (photo.googleVision.webDetection.bestGuessLabels) {
                 this.webLabels = photo.googleVision.webDetection.bestGuessLabels.map(label => {
                   return (
-                    <li>{label.label}</li>
+                    <li key={label.label}>{label.label}</li>
                   );
                 });
               } else {
@@ -332,7 +332,7 @@ getNowPlaying(){
         })
 
 		return (<>
-			<div class="content">
+			<div className="content">
         <h1>Retroversion</h1>
         {allImages}
         
