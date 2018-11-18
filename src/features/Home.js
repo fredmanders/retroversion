@@ -6,6 +6,7 @@ import FileUploader from 'react-firebase-file-uploader';
 import firebase from 'firebase';
 import { ScaleLoader } from 'react-spinner';
 import SpotifyWebApi from 'spotify-web-api-js';
+import PhotoEntities from "./PhotoEntities";
 const spotifyApi = new SpotifyWebApi();
 
 const appTokenKey = "appToken";
@@ -179,6 +180,7 @@ getNowPlaying(){
     }
 
 	render() {
+      
 
         const allImages = this.state.allPhotos.map(photo => {
 
@@ -283,11 +285,7 @@ getNowPlaying(){
               }
 
               if (photo.googleVision.webDetection.webEntities) {
-                this.entities = photo.googleVision.webDetection.webEntities.map(entity => {
-                  return (
-                    <li>{entity.description} (score: {entity.score})</li>
-                  );
-                });
+                this.entities = <PhotoEntities entities={photo.googleVision.webDetection.webEntities}/>
               } else {
                 this.entities = <li>No entities</li>
               }
