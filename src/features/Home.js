@@ -37,9 +37,7 @@ export default class Home extends Component {
           isMobile: this.isMobile(),
           imageRef: '',
           loggedIn: token ? true : false,
-          nowPlaying: { name: 'Not Checked', albumArt: '' },
-          
-          showCamera: false
+          nowPlaying: { name: 'Not Checked', albumArt: '' }
         }; 
 
         this.handleLogout = this.handleLogout.bind(this);
@@ -176,6 +174,25 @@ getNowPlaying(){
       this.handleUploadSuccess(filename)
   }
   
+
+    playSong(photo) {
+      console.log("Play song", photo);
+      let query = photo.googleVision.webDetection.webEntities[0].description;
+      console.log("Spotify search query", query);
+      spotifyApi.search(query, ["album", "artist", "track"], function(err, data) {
+        if (err) console.error(err);
+        else {
+          console.log('Query results', data);
+          let contextUri = data.albums.items[0].uri;
+          console.log('Playing', contextUri);
+
+          spotifyApi.play({
+            "context_uri": contextUri
+          })
+        };
+      });
+    }
+
 	render() {
       
 
@@ -202,7 +219,7 @@ getNowPlaying(){
               this.lbla = photo.googleVision.labelAnnotations;
               this.labels = this.lbla.map(label => {
                 return (
-                  <li>{label.description} (score: {label.score})</li>
+                  <li key={label.mid}>{label.description} (score: {label.score})</li>
                 );
               });
             } else {
@@ -212,7 +229,7 @@ getNowPlaying(){
               this.lma = photo.googleVision.landmarkAnnotations;
               this.landmarks = this.lma.map(landmark => {
                 return (
-                  <li>{landmark.description} (score: {landmark.score})</li>
+                  <li key={landmark.mid}>{landmark.description} (score: {landmark.score})</li>
                 );
               });
             } else {
@@ -222,7 +239,7 @@ getNowPlaying(){
               this.loa = photo.googleVision.logoAnnotations;
               this.logos = this.loa.map(logo => {
                 return (
-                  <li>{logo.description} (score: {logo.score})</li>
+                  <li key={logo.mid}>{logo.description} (score: {logo.score})</li>
                 );
               });
             } else {
@@ -244,7 +261,7 @@ getNowPlaying(){
             if (photo.googleVision.textAnnotations) {
               this.text = photo.googleVision.textAnnotations.map(text => {
                 return (
-                  <li>{text.description} (score: {text.score})</li>
+                  <li key={text.description}>{text.description} (score: {text.score})</li>
                 );
               });
             } else {
@@ -255,7 +272,7 @@ getNowPlaying(){
               if (photo.googleVision.webDetection.bestGuessLabels) {
                 this.webLabels = photo.googleVision.webDetection.bestGuessLabels.map(label => {
                   return (
-                    <li>{label.label}</li>
+                    <li key={label.label}>{label.label}</li>
                   );
                 });
               } else {
@@ -294,7 +311,7 @@ getNowPlaying(){
             <div key={photo.id}>
                 <div style={{minHeight: '215px'}}>
                     <i onClick={() => this.handleRemove(photo.id)} className="bottom-icon material-icons main-close">close</i>
-                    <Image style={{ width: '100%' }} src={photo.url} responsive />
+                    <Image style={{ width: '100%' }} onClick={() => this.playSong(photo)} src={photo.url} responsive />
                 </div>
 
                 <h2>Face detection</h2>
@@ -347,7 +364,7 @@ getNowPlaying(){
         })
 
 		return (<>
-			<div class="content">
+			<div className="content">
         <h1>Retroversion</h1>
         <Modal show={this.state.showCamera} onHide={() => this.setState({showCamera: false})}>
           <Modal.Header closeButton>
@@ -360,7 +377,7 @@ getNowPlaying(){
         {allImages}
         
         <div className="App">
-          <a href='https://accounts.spotify.com/authorize?client_id=f3f6bb3b58ff4ad1a637e1ea565406c2&response_type=token&redirect_uri=http://localhost:3000/app/home' > Login to Spotify </a>
+          <a href='https://accounts.spotify.com/authorize?client_id=c7643b96b1c241e69501596c7bc0ba2a&response_type=token&redirect_uri=http://localhost:3000/app/home&scope=user-modify-playback-state' > Login to Spotify </a>
           <div>
             Now Playing: { this.state.nowPlaying.name }
           </div>
