@@ -160,7 +160,23 @@ getNowPlaying(){
 
     }
 
+    playSong(photo) {
+      console.log("Play song", photo);
+      let query = photo.googleVision.webDetection.webEntities[0].description;
+      console.log("Spotify search query", query);
+      spotifyApi.search(query, ["album", "artist", "track"], function(err, data) {
+        if (err) console.error(err);
+        else {
+          console.log('Query results', data);
+          let contextUri = data.albums.items[0].uri;
+          console.log('Playing', contextUri);
 
+          spotifyApi.play({
+            "context_uri": contextUri
+          })
+        };
+      });
+    }
 
 	render() {
 
@@ -283,7 +299,7 @@ getNowPlaying(){
             <div key={photo.id}>
                 <div style={{minHeight: '215px'}}>
                     <i onClick={() => this.handleRemove(photo.id)} className="bottom-icon material-icons main-close">close</i>
-                    <Image style={{ width: '100%' }} src={photo.url} responsive />
+                    <Image style={{ width: '100%' }} onClick={() => this.playSong(photo)} src={photo.url} responsive />
                 </div>
 
                 <h2>Face detection</h2>
@@ -341,7 +357,7 @@ getNowPlaying(){
         {allImages}
         
         <div className="App">
-          <a href='https://accounts.spotify.com/authorize?client_id=c7643b96b1c241e69501596c7bc0ba2a&response_type=token&redirect_uri=http://localhost:3001/app/home' > Login to Spotify </a>
+          <a href='https://accounts.spotify.com/authorize?client_id=c7643b96b1c241e69501596c7bc0ba2a&response_type=token&redirect_uri=http://localhost:3000/app/home&scope=user-modify-playback-state' > Login to Spotify </a>
           <div>
             Now Playing: { this.state.nowPlaying.name }
           </div>
